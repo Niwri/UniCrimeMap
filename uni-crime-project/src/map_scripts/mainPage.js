@@ -1,6 +1,5 @@
 import MapImage from '../images/mapdemo.png'
 
-
 function MainPage() {
     var projectName = "Map For Hu Tao Enthusiasts in UofT";
 
