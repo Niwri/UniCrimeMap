@@ -1,5 +1,6 @@
 import './css/main.css'
 import MainPage from './map_scripts/mainPage.js';
+import MapPage from './map_scripts/mapPage.js';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import React from 'react'
