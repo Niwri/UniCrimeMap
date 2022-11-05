@@ -1,3 +1,11 @@
 year,month,day,address,category,description
-2022,5,13,40 St. George St.,Medical,Something happened
-2022,5,13,40 St. George St.,Medical,Something happened
+2022,5,13,40 St. George St.,Medical,Something happened1
+2022,5,13,49 St. George St.,Theft,Something happened2
+2022,6,13,49 St. George St.,Medical,Something happened3
+2022,6,13,10 St. George St.,Theft,Something happened4
+2022,6,13,10 St. George St.,Medical,Something happened5
+2022,7,13,30 St. George St.,Drug,Something happened6
+2022,7,13,30 St. George St.,Drug,Something happened7
+2022,8,13,40 St. George St.,Murder,Something happened8
+2022,10,13,40 St. George St.,Assault,Something happened9
+2022,10,13,40 St. George St.,Irwin,Something happened10

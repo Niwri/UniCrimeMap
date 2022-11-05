@@ -66,7 +66,7 @@ def filter_by_category(category: str):
         next(reader)
 
         for row in reader:
-            check_category = row[3]
+            check_category = row[4]
 
             if category == check_category:
                 date = datetime.datetime(int(row[0]), int(row[1]), int(row[2]))
