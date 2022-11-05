@@ -5,6 +5,4 @@ function initMap() {
       zoom: 17,
       mapId: 'DEMO_MAP_ID',
     });
-
-
 }
