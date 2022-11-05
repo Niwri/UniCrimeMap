@@ -1,75 +1,49 @@
-.mainBody {
-    margin: 0 10vw;
-    font-size: 1.5vw;
-    text-align: center;
-}
-
 
 .mainTitle {
-    width: 100%;
-}
-
-.mainTitle h1 {
-    text-align: center;
-    margin: 5vw 0 2vw 0; 
-    font-size: 2vw;
-}
-
-.mainTitleBackgroundDummy {
-
-}
-
-.mainTitleBackgroundDummy svg {
-    z-index: -1;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: block;
-}
-
-
-.mainTitleBackground {
     width: 100vw;
     height: 100%;
 }
 
+
 .mainTitleBackground svg {
-    z-index: -1;
-    margin: 0;
-    padding: 0;
+    z-index: 1;
+    height: 100%;
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
     display: block;
+    
 }
 
-.mainTitle {
-    margin: 0;
-    padding: 0;
+
+.mainTitleBackgroundBorder svg {
+    z-index: 0;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    
 }
 
-.mainMapDescription {
-    margin: 15vw 0 4vw 0;
+.mainTitleText {
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    font-size: 1vw;
 }
 
-.mainIncident {
-    margin: 0 0vw;
+.mainTitleText p {
+    font-size: 1.5vw;
 }
 
-.mainReportList {
-    text-align: center;
+.mapDemo {
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
 }
-
-.mainReportList table {
-    width: 30vw;
-    background-color: #E7E7E7
-}
-
-.mainReportList table th {
-    padding: 0.5vw;
-    background-color: #C3C3C3;
-}
-
