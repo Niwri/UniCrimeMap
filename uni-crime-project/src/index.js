@@ -6,7 +6,7 @@ import MapPage from './map_scripts/mapPage'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <MapPage />
   </React.StrictMode>
 );
 
