@@ -1,8 +1,16 @@
+import './css/main.css'
+import MainPage from './map_scripts/mainPage.js';
+
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
 function App() {
   return (
-    <div className="App">
-      This is a test
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage/>}/>
+      </Routes>
+    </BrowserRouter>
+    
   );
 }
 
