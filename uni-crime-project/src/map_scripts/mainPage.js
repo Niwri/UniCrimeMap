@@ -1,4 +1,5 @@
 import MapImage from '../images/mapdemo.png'
+import React from 'react';
 
 function MainPage() {
     var projectName = "Map For Hu Tao Enthusiasts in UofT";
