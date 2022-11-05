@@ -1,4 +1,4 @@
-function mapPage() {
+function MapPage() {
     return (
       <div className="mapPage">
         <body>
@@ -11,5 +11,5 @@ function mapPage() {
     );
 }
   
-export default mapPage;
+export default MapPage;
   
