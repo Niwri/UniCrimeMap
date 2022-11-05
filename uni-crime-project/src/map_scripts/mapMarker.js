@@ -1,1 +1,3 @@
-//Function to mark incidents on the map
+import React from 'react'
+
+//Create and mark incidents
