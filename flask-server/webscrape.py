@@ -1,16 +1,18 @@
 """
-Comments
+Author: Andrew Nguyen
+
 """
 
 import csv
-import requests
 import datetime
-from typing import Optional
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import time
 
 FILENAME = "crimes.csv"
-url = "https://www.torontomu.ca/community-safety-security/security-incidents/list-of-security-incidents/"
+URL = "https://www.torontomu.ca/community-safety-security/security-incidents/list-of-security-incidents/"
+NUM_PAGES = 11
 
 
 def tmu_webscraper():
@@ -18,30 +20,35 @@ def tmu_webscraper():
     A webscraper designed for getting information from
     https://www.torontomu.ca/community-safety-security/security-incidents/list-of-security-incidents/
     """
+    reset_csv()
     driver = webdriver.Chrome()
-    driver.get(url)
+    driver.get(URL)
     list_of_dates = []
     list_of_categories = []
     list_of_address = []
 
-    titles = driver.find_elements(By.CLASS_NAME, 'title')
-    for title in titles:
-        category = title.text.split(sep='\n')[1]
-        list_of_categories.append(category)
+    for i in range(1, NUM_PAGES + 1):
+        driver.find_element(By.CSS_SELECTOR, "a[data-page='" + str(i) + "']").click()
+        time.sleep(0.5)
+        titles = driver.find_elements(By.CLASS_NAME, 'title')
 
-        date_elements = title.text.split(sep='\n')[0].split()
-        date_elements[1] = date_elements[1].replace(',', '')
+        for title in titles:
+            category = title.text.split(sep='\n')[1]
+            list_of_categories.append(category)
 
-        date = _convert_to_datetime(
-            date_elements[0],
-            int(date_elements[1]),
-            int(date_elements[2]))
-        list_of_dates.append(date)
+            date_elements = title.text.split(sep='\n')[0].split()
+            date_elements[1] = date_elements[1].replace(',', '')
 
-    addresses = driver.find_elements(By.CLASS_NAME, 'location')
-    for address in addresses:
-        location = address.text.split(sep=': ')[1]
-        list_of_address.append(location)
+            date = _convert_to_datetime(
+                date_elements[0],
+                int(date_elements[1]),
+                int(date_elements[2]))
+            list_of_dates.append(date)
+
+        addresses = driver.find_elements(By.CLASS_NAME, 'location')
+        for address in addresses:
+            location = address.text.split(sep=': ')[1]
+            list_of_address.append(location)
 
     assert len(list_of_dates) == len(list_of_address) == len(list_of_categories)
 
