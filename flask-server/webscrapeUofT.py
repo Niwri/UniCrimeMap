@@ -35,12 +35,13 @@ number_of_months_cycle = 1
 
 lastDayNumber = 42
 canContinue = True
-FILENAME = "uoftcrimes.csv"
+FILENAME = "uoft_crimes.csv"
 
 # Get Year (current_month_class)
 # Get Each Incident (incident-button-class) (category-class) (date-class) (address-class) (detail-class)
 # Get Each Incident that is hidden (more-incident-button-class) (incident-button-class) (category-class) (date-class) (address-class) (detail-class)
 # Move to previous month (previous-month-button-class) and repeat
+
 
 def get_date(date):
     dateSplit = date.replace(",", "").split()
@@ -48,15 +49,16 @@ def get_date(date):
     return dateSplit[1], int(dateSplit[2])
     
 
-
 def to_previous_month(driver):
     driver.find_element(By.CSS_SELECTOR, "[class='" + previous_month_button_class + "']").click()
     time.sleep(4)
     return
 
+
 def get_year(driver):
     year = driver.find_element(By.CSS_SELECTOR, "[class='" + current_month_class + "']")
     return int(year.get_attribute('innerHTML').split()[1])
+
 
 def get_incident(driver, list_of_dates, list_of_categories, list_of_address, list_of_description):
     global canContinue
@@ -140,6 +142,7 @@ def get_incident(driver, list_of_dates, list_of_categories, list_of_address, lis
     lastDayNumber = currentDayNumber   
     canContinue = False 
 
+
 def write_to_csv(date: datetime, address: str, category: str, description: str) -> None:
     """Transforms all information from data to a csv file
     """
@@ -149,10 +152,11 @@ def write_to_csv(date: datetime, address: str, category: str, description: str) 
 
         writer.writerow(row)
 
+
 def reset_csv():
     """Reset the CSV with just the header
     """
-    with open('uoftcrimes.csv', 'w') as f:
+    with open('uoft_crimes.csv', 'w') as f:
 
         writer = csv.DictWriter(f, fieldnames=["year", "month", "day", "address", "category", "description"])
         writer.writeheader()
@@ -184,7 +188,7 @@ def uoft_webscrapper():
 
     driver.close()
 
-#reset_csv()
+
 uoft_webscrapper()
 
 

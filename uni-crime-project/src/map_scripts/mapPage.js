@@ -10,21 +10,30 @@ import Arrow from '../images/arrow.png'
 
 import { FilterByCategory, FilterByDate } from './mapFormat.js'
 
-function getLatLong(address, loader){
+function getLatLong(address, setResults){
     var geocoder;
     const additionalOptions = {};
+    const loader = new Loader({
+        apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
+        version: "weekly",
+        ...additionalOptions
+    }); 
+    useEffect(() => {
+            loader.load().then((google) => {
+                geocoder = new google.maps.Geocoder();
+                geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'CA'}}, function(results, status) {
+                    if (status == 'OK') {
+                        var lat = results[1].geometry.location.lat();
+                        var lng = results[1].geometry.location.lng();
+                        setResults([lat,lng]);
 
-    loader.load().then((google) => {
-        geocoder = new google.maps.Geocoder();
-        geocoder.geocode( { 'address': address}, function(results, status) {
-            if (status == 'OK') {
-                console.log(results);
-                return results;
-            } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    });
+                    } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            })
+        
+    }, []);
 };
 
 
@@ -135,88 +144,19 @@ const checkBoxClick = (e) => {
     document.getElementById(e.target.id).checked = true;
 }
 
-function getCoords() {
-    return;
+function createCoordList (currentData, results, setResults){
+    let address = "";
+    let coordList = [[]];
+
+    console.log(currentData)
+    for (let i=0; i< 110; i++){
+        address = currentData[i][3];
+        
+        getLatLong(address, setResults)
+        coordList[i].push(results);
+    }
+    console.log(coordList)
 }
-
-function placeMarkers(currentData, loader, map, coordinates) {
-    loader.load().then((google) => {
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 43.66361717124133,  lng:  -79.40054575699752 },
-            zoom: 15.95,
-            mapTypeId: 'roadmap',
-            styles: [ 
-                { 
-                "featureType": "poi.business", 
-                "stylers": [ 
-                    { "visibility": "off" } 
-                ]
-                },
-                { 
-                    "featureType": "poi.medical", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "transit", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "poi.attraction", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "poi.place_of_worship", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "poi.sports_complex", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                }  
-            ] 
-        });
-
-        for(let i = 0; i < currentData.length; i++) {
-
-            const contentString = 
-            `<div>
-            <h1>` + currentData[i][4] + `</h1>
-            <p> Address: ` + currentData[i][3] + `</p>
-            <p> Date: ` +  new Date(currentData[i][0], currentData[i][1], currentData[i][2]) + `</p>
-            <p>` + currentData[i][5] + `</p>
-            </div>
-            `
-
-            const infoWindow = new google.map.InfoWindow({
-                content: contentString,
-                ariaLabel: currentData[i][4],
-            })
-
-            const marker = new google.maps.Marker({
-                position: { lat: coordinates[i][0], lng: coordinates[i][0]},
-                map: map,
-                title: currentData[i][4]
-            })
-            marker.addListener("click", () => {
-                infoWindow.open({
-                  anchor: marker,
-                  map: map,
-                });
-              });
-        }
-
-    });
-}
-
 
 function MapPage() {
     
@@ -230,6 +170,7 @@ function MapPage() {
         fetch("http://127.0.0.1:5000/tmu-incidents").then(res => res.json()).then((data) => setRawData(data))
     }, [])
 
+
     var currentData = RawData;
 
     
@@ -237,13 +178,11 @@ function MapPage() {
     let map;
     const additionalOptions = {};
     const loader = new Loader({
-        apiKey: "AIzaSyBYOQr_EjZiS-CV1AuLighoZ_Sr_ZGWFto",
+        apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
         version: "weekly",
         ...additionalOptions,
     }); 
 
-    
-    getLatLong("55 St.George Street", loader)
     
     loader.load().then((google) => {
         map = new google.maps.Map(document.getElementById("map"), {
@@ -309,6 +248,14 @@ function MapPage() {
         
 
     });
+
+    // const [results, setResults] = useState([]);
+    // createCoordList(currentData, results, setResults);
+
+
+    const [coordList, setCoordList] = useState([[]]);
+    getLatLong("55 St.George Street", setCoordList)
+    console.log(coordList)
 
     return(
   
