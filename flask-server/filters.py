@@ -1,5 +1,7 @@
 """
-Comments
+Author: Andrew Nguyen
+Date: November 5/22
+Description: The file that sets filters on crimes.csv and provides a CrimeReport object to the user
 """
 import datetime
 import csv
@@ -27,7 +29,7 @@ def filter_by_date(start_year: int, start_month: int, start_day: int, end_year: 
                 category = row[4]
                 description = row[5]
 
-                crime = c.crime_report(check_date, address, category, description)
+                crime = c.CrimeReport(check_date, address, category, description)
                 list_of_crimes.append(crime)
 
     return list_of_crimes
@@ -50,7 +52,7 @@ def filter_by_address(address: str):
                 category = row[4]
                 description = row[5]
 
-                crime = c.crime_report(date, check_address, category, description)
+                crime = c.CrimeReport(date, check_address, category, description)
                 list_of_crimes.append(crime)
 
     return list_of_crimes
@@ -66,14 +68,14 @@ def filter_by_category(category: str):
         next(reader)
 
         for row in reader:
-            check_category = row[3]
+            check_category = row[4]
 
             if category == check_category:
                 date = datetime.datetime(int(row[0]), int(row[1]), int(row[2]))
                 address = row[3]
                 description = row[5]
 
-                crime = c.crime_report(date, address, check_category, description)
+                crime = c.CrimeReport(date, address, check_category, description)
                 list_of_crimes.append(crime)
 
     return list_of_crimes
