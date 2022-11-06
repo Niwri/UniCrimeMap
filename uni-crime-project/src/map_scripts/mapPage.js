@@ -12,6 +12,9 @@ import { FilterByCategory, FilterByDate } from './mapFormat.js'
 
 var coordinates = [];
 
+//Demo markers
+var markers = [[43.65917234681383, -79.39810606351988], [43.66025625958288, -79.39253756960474], [43.66643418871954, -79.40110256248767], [43.660671754289524, -79.39553406857253], [43.66206273738076, -79.39950442970485], [43.663453688270884, -79.39348646067563], [43.66574778357029, -79.3974817926327]] 
+
 const loader = new Loader({
     apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
     version: "weekly",
@@ -65,7 +68,7 @@ function FlipArrow() {
     }
 }
 
-function updateData(currentData, RawData) {
+function updateData(currentData, RawData, map) {
     var categories = [];
     if(document.getElementById("assault").checked)
         categories.push("Assault")
@@ -132,11 +135,141 @@ function updateData(currentData, RawData) {
     
 
     currentData = FilterByDate(range, currentData)
-    console.log(currentData)
+    placeMarkers(categories, range, map)
 }
 
-function resetAll(currentData, RawData) {
+function resetAll(currentData, RawData, map) {
     currentData = RawData;
+
+    loader.load().then((google) => {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 43.66361717124133,  lng:  -79.40054575699752 },
+            zoom: 15.95,
+            mapTypeId: 'roadmap',
+            styles: [ 
+                { 
+                "featureType": "poi.business", 
+                "stylers": [ 
+                    { "visibility": "off" } 
+                ]
+                },
+                { 
+                    "featureType": "poi.medical", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "transit", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.attraction", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.place_of_worship", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.sports_complex", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                }  
+            ] 
+        });
+        markers.forEach((marker) => {
+            const markerAdd = new google.maps.Marker({
+                position: { lat: marker[0], lng: marker[1] },
+                map,
+            });
+        })
+        
+    });
+
+}
+
+//Hard-coded for demo
+function placeMarkers(categories, range, map) {
+    var markerList = []
+    for(let i = 0; i < categories.length; i++) {
+        if(categories[i].toLowerCase() == "Property Damage".toLowerCase())
+            markerList.push(markers[0])
+        if(categories[i].toLowerCase() == "Medical".toLowerCase())
+            markerList.push(markers[1])
+        if(categories[i].toLowerCase() == "Mischief".toLowerCase())
+            markerList.push(markers[2])
+        if(categories[i].toLowerCase() == "Impaired Driving".toLowerCase())
+            markerList.push(markers[3])
+        if(categories[i].toLowerCase() == "Suspicious Person".toLowerCase())
+            markerList.push(markers[4])
+        if(categories[i].toLowerCase() == "Theft".toLowerCase())
+            markerList.push(markers[5])
+        if(categories[i].toLowerCase() == "Break and Enter".toLowerCase())
+            markerList.push(markers[6])
+    }
+
+    loader.load().then((google) => {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 43.66361717124133,  lng:  -79.40054575699752 },
+            zoom: 15.95,
+            mapTypeId: 'roadmap',
+            styles: [ 
+                { 
+                "featureType": "poi.business", 
+                "stylers": [ 
+                    { "visibility": "off" } 
+                ]
+                },
+                { 
+                    "featureType": "poi.medical", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "transit", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.attraction", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.place_of_worship", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.sports_complex", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                }  
+            ] 
+        });
+
+        markerList.forEach((marker) => {
+            const markerAdd = new google.maps.Marker({
+                position: { lat: marker[0], lng: marker[1] },
+                map,
+            });
+        })
+    });
+
+
 }
 
 const checkBoxClick = (e) => {
@@ -151,7 +284,7 @@ const checkBoxClick = (e) => {
 
 function createCoordList (currentData){
 
-    console.log(getLatLong("300 Huron Street"))
+    //console.log(getLatLong("300 Huron Street"))
     console.log(coordinates)
 }
 
@@ -218,26 +351,17 @@ function MapPage() {
             ] 
         });
 
-        const contentString = 
-            `<div>
-            <h1>` + `Test` + `</h1>
-            <p> Address: ` + `Test` + `</p>
-            <p> Date: ` +  `Test`+ `</p>
-            <p>` + `Test` + `</p>
-            </div>
-            `
+        markers.forEach((marker) => {
+            const markerAdd = new google.maps.Marker({
+                position: { lat: marker[0], lng: marker[1] },
+                map,
+            });
+        })
 
-            
-            
-        const marker = new google.maps.Marker({
-            position: { lat: 43.66659035511779, lng: -79.3949516968313 },
-            map: map,
-        });
         
-        
-
     });
 
+    
     // const [results, setResults] = useState([]);
     // createCoordList(currentData, results, setResults);
 
@@ -468,9 +592,9 @@ function MapPage() {
                         
 
                 </table>
-                <input class="changeButton" type = "button" value= "Change" onClick={() => updateData(currentData, RawData)}></input>
+                <input class="changeButton" type = "button" value= "Change" onClick={() => updateData(currentData, RawData, map)}></input>
                 <br/>
-                <input class="changeButton" type = "button" value= "Reset" onClick={() => resetAll(currentData, RawData)}></input>
+                <input class="changeButton" type = "button" value= "Reset" onClick={() => resetAll(currentData, RawData, map)}></input>
 
 
                 
