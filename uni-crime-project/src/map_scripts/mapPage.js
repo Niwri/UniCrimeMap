@@ -10,14 +10,9 @@ import Arrow from '../images/arrow.png'
 
 import { FilterByCategory, FilterByDate } from './mapFormat.js'
 
-function getLatLong(address){
+function getLatLong(address, loader){
     var geocoder;
     const additionalOptions = {};
-    const loader = new Loader({
-        apiKey: "AIzaSyBYOQr_EjZiS-CV1AuLighoZ_Sr_ZGWFto",
-        version: "weekly",
-        ...additionalOptions,
-    }); 
 
     loader.load().then((google) => {
         geocoder = new google.maps.Geocoder();
@@ -140,6 +135,88 @@ const checkBoxClick = (e) => {
     document.getElementById(e.target.id).checked = true;
 }
 
+function getCoords() {
+    return;
+}
+
+function placeMarkers(currentData, loader, map, coordinates) {
+    loader.load().then((google) => {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 43.66361717124133,  lng:  -79.40054575699752 },
+            zoom: 15.95,
+            mapTypeId: 'roadmap',
+            styles: [ 
+                { 
+                "featureType": "poi.business", 
+                "stylers": [ 
+                    { "visibility": "off" } 
+                ]
+                },
+                { 
+                    "featureType": "poi.medical", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "transit", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.attraction", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.place_of_worship", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.sports_complex", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                }  
+            ] 
+        });
+
+        for(let i = 0; i < currentData.length; i++) {
+
+            const contentString = 
+            `<div>
+            <h1>` + currentData[i][4] + `</h1>
+            <p> Address: ` + currentData[i][3] + `</p>
+            <p> Date: ` +  new Date(currentData[i][0], currentData[i][1], currentData[i][2]) + `</p>
+            <p>` + currentData[i][5] + `</p>
+            </div>
+            `
+
+            const infoWindow = new google.map.InfoWindow({
+                content: contentString,
+                ariaLabel: currentData[i][4],
+            })
+
+            const marker = new google.maps.Marker({
+                position: { lat: coordinates[i][0], lng: coordinates[i][0]},
+                map: map,
+                title: currentData[i][4]
+            })
+            marker.addListener("click", () => {
+                infoWindow.open({
+                  anchor: marker,
+                  map: map,
+                });
+              });
+        }
+
+    });
+}
+
 
 function MapPage() {
     
@@ -156,6 +233,7 @@ function MapPage() {
     var currentData = RawData;
 
     
+    
     let map;
     const additionalOptions = {};
     const loader = new Loader({
@@ -165,7 +243,7 @@ function MapPage() {
     }); 
 
     
-
+    getLatLong("55 St.George Street", loader)
     
     loader.load().then((google) => {
         map = new google.maps.Map(document.getElementById("map"), {
@@ -212,10 +290,24 @@ function MapPage() {
             ] 
         });
 
+        const contentString = 
+            `<div>
+            <h1>` + `Test` + `</h1>
+            <p> Address: ` + `Test` + `</p>
+            <p> Date: ` +  `Test`+ `</p>
+            <p>` + `Test` + `</p>
+            </div>
+            `
+
+            
+            
         const marker = new google.maps.Marker({
             position: { lat: 43.66659035511779, lng: -79.3949516968313 },
             map: map,
         });
+        
+        
+
     });
 
     return(
