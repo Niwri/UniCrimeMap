@@ -6,7 +6,7 @@ import '../css/map.css'
 import { Loader } from "@googlemaps/js-api-loader"
 
 function MapPage() {
-    let map;
+    let map;    
     const additionalOptions = {};
     
     const loader = new Loader({

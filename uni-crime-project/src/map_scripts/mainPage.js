@@ -35,6 +35,7 @@ function MainPage() {
                 
             </header>
             <img src={MapImage} class="mapDemo"></img>
+            
         </div>
     )
 }
