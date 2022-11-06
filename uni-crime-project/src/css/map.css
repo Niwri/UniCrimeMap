@@ -155,6 +155,7 @@ font-family: 'Signika', sans-serif;
 }
 
 .sideButton {
+    z-index: 3;
     position: absolute;
     top: 50%;
     left: 32%;
