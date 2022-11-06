@@ -5,10 +5,35 @@ import '../css/map.css'
 
 import { Loader } from "@googlemaps/js-api-loader"
 
+import Arrow from '../images/arrow.png'
+
 async function loadData() {
     const res = await fetch("http://127.0.0.1:5000/testIncident");
     var data = await res.json()
     console.log(data)
+}
+
+function FlipArrow() {
+    var arrow = document.getElementById("#arrow");
+    var arrowBox = document.getElementById("#arrowBox")
+    var guiBackground = document.getElementsByClassName("mapGuiBackground")[0]
+    var gui = document.getElementsByClassName("filtersGui")[0]
+    console.log(guiBackground)
+
+    if(arrow.style.rotate == "0deg") {
+        arrow.style.rotate = "180deg";
+        arrowBox.style.left = "32%";
+        guiBackground.style.left = "0%";
+        gui.style.left = "0%";
+        arrow.style.setProperty('--hover-left', '-5%');
+    } else {
+        arrow.style.rotate = "0deg";
+        arrowBox.style.left = "1%";
+        guiBackground.style.left = "-31%";
+        gui.style.left = "-31%";
+        
+        arrow.style.setProperty('--hover-left', '5%');
+    }
 }
 
 function MapPage() {
@@ -22,19 +47,22 @@ function MapPage() {
 
     loadData();
     
-    loader.load().then((google) => {
+    /*loader.load().then((google) => {
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 43.663744035827754, lng: -79.39479158104825 },
         zoom: 16,
     });
-    }); 
+    }); */
     return(
   
     
    <div>
         <div class="mapGuiBackground">
-            <svg viewBox="0 0 50 150">
-                <path fill="#9ADCFF" fill-opacity="1" d="M0,0 L50,0 L50,150 L0,150 Z"/>
+            <svg viewBox="0 0 400 640">
+                <path fill="#9ADCFF" fill-opacity="1" d="M0,0 L400,0 L400,640 L0,640 Z"/>
+            </svg>
+            <svg viewBox="0 0 10 640">
+                <path fill="#9ADCFF" fill-opacity="0.5" d="M0,0 L10,0 L10,640 L0,640 Z"/>
             </svg>
         </div>
         
@@ -124,6 +152,9 @@ function MapPage() {
                 <br></br>
 
             </div>
+        </div>
+        <div id="#arrowBox" onClick={() => FlipArrow()} class="sideButton">
+            <img id="#arrow" src={Arrow}/>
         </div>
     </div>
     )

@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Alkalami&family=Signika&display=swap');
+
+:root {
+    --hover-left: -5%;
+}
+
 #map {
     z-index: 0;
     height: 100%;
@@ -6,17 +12,22 @@ html, body {
 height: 100%;
 margin: 0;
 padding: 0;
+font-family: 'Signika', sans-serif;
 }
 
 .mapGuiBackground {
     z-index: 1;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease-in-out;
 }
 .mapGuiBackground svg {
     z-index: 1;
-    position: absolute;
-    width: 30%;
-    top: 0;
-    left: 0;
+    height: 100%;
+    position: relative;
+    
 }
 
 .filtersGui {
@@ -29,6 +40,8 @@ padding: 0;
     height: 100%;
     background-repeat: repeat;
     position: absolute;
+
+    transition: all 0.3s ease-in-out;
     
 }
 
@@ -67,11 +80,9 @@ padding: 0;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    font-family: 'Times New Roman';
 }
 
 .checkLabel{
-    font-family: 'Times New Roman';
     font-size: 18px;
     
 }
@@ -96,19 +107,22 @@ padding: 0;
     background-color: #47B5FF;
     padding: 10px;
     width: 80%;
-    margin: 10px;
+    margin: 5px;
     text-decoration: none;
     cursor: pointer;
     font-size: 18px ;
     border-radius: 10px;
     border-color: black;
-    font-family: 'Times New Roman';
     margin-left: 47px;
 
 }
 
+.buttons:hover {
+    background-color: #8dd1ff;
+}
+
 .categorieSelects{
-    margin: 0px 20px;
+    margin: 0px 10px;
 }
 
 .selectTable{
@@ -130,11 +144,36 @@ padding: 0;
     font-size: 18px ;
     border-radius: 10px;
     border-color: black;
-    font-family: 'Times New Roman';
     text-decoration: none;
     padding: 2px;
     width: 20%;
     background-color: #47B5FF;
 }
+
+.menuButton:hover {
+    background-color: #8dd1ff;
+}
+
+.sideButton {
+    position: absolute;
+    top: 50%;
+    left: 32%;
+    
+    transition: all 0.3s ease-in-out;
+}
+
+.sideButton img {
+    max-width: 4vw;
+    height: 4vw;
+    rotate: 180deg;
+    transition: all 0.3s ease-in-out;
+}
+
+.sideButton:hover img {
+    margin-left: var(--hover-left);
+}
+
+
+
 
 
