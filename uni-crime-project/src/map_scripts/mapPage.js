@@ -5,6 +5,12 @@ import '../css/map.css'
 
 import { Loader } from "@googlemaps/js-api-loader"
 
+async function loadData() {
+    const res = await fetch("http://127.0.0.1:5000/testIncident");
+    var data = await res.json()
+    console.log(data)
+}
+
 function MapPage() {
     let map;    
     const additionalOptions = {};
@@ -13,7 +19,9 @@ function MapPage() {
         version: "weekly",
         ...additionalOptions,
     }); 
-      
+
+    loadData();
+    
     loader.load().then((google) => {
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 43.663744035827754, lng: -79.39479158104825 },
