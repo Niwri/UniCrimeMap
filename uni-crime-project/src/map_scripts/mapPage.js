@@ -14,9 +14,9 @@ function getLatLong(address){
     var geocoder;
     const additionalOptions = {};
     const loader = new Loader({
-        apiKey: "AIzaSyBYOQr_EjZiS-CV1AuLighoZ_Sr_ZGWFto",
+        apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
         version: "weekly",
-        ...additionalOptions,
+        ...additionalOptions
     }); 
 
     loader.load().then((google) => {
@@ -126,7 +126,7 @@ function MapPage() {
     let map;
     const additionalOptions = {};
     const loader = new Loader({
-        apiKey: "AIzaSyBYOQr_EjZiS-CV1AuLighoZ_Sr_ZGWFto",
+        apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
         version: "weekly",
         ...additionalOptions,
     }); 
