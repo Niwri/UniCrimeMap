@@ -64,8 +64,10 @@ function updateData(currentData, RawData) {
     var categories = [];
     if(document.getElementById("assault").checked)
         categories.push("Assault")
-    if(document.getElementById("robbery").checked)
+    if(document.getElementById("robbery").checked) {
         categories.push("Robbery")
+        categories.push("Theft")
+    }
     if(document.getElementById("indecentAct").checked)
         categories.push("Indecent Act")
     if(document.getElementById("sexualAssault").checked)
@@ -74,6 +76,33 @@ function updateData(currentData, RawData) {
         categories.push("Criminal Harassment")
     if(document.getElementById("voyeurism").checked)
         categories.push("Voyeurism")
+    if(document.getElementById("trespass").checked)
+        categories.push("Trespass")
+    if(document.getElementById("alarm").checked)
+        categories.push("Alarm")
+    if(document.getElementById("sus").checked) {
+        categories.push("Suspicious Person")
+        categories.push("Unwanted Person")
+    }
+    if(document.getElementById("property").checked) 
+        categories.push("Property Damage")
+    if(document.getElementById("fraud").checked)
+        categories.push("Fraud")
+    if(document.getElementById("protest").checked)
+        categories.push("Protest")
+    if(document.getElementById("medical").checked)
+        categories.push("Medical")
+    if(document.getElementById("drugs").checked)
+        categories.push("Drugs")
+    if(document.getElementById("mischief").checked)
+        categories.push("Mischief")
+    if(document.getElementById("driving").checked)
+        categories.push("Impaired Driving")
+    if(document.getElementById("break").checked)
+        categories.push("Break and Enter")
+    if(document.getElementById("harassment").checked)
+        categories.push("Harassment")
+    
 
     if(categories.length == 0) return
 
@@ -99,6 +128,10 @@ function updateData(currentData, RawData) {
 
     currentData = FilterByDate(range, currentData)
     console.log(currentData)
+}
+
+function resetAll(currentData, RawData) {
+    currentData = RawData;
 }
 
 const checkBoxClick = (e) => {
@@ -287,77 +320,89 @@ function MapPage() {
                     </p>
                     <table class = "selectTable" id = "UofTTable">
                         <td>
-                            <input class = "checkboxes" type = "checkbox" id = "assault" name = "cat1" value = "assault"></input> 
-                            <label class = "checkLabel" for = "cat1">
+                            <input class = "checkboxes" type = "checkbox" id = "sus" name = "lion1" value = "sus"></input> 
+                            <label class = "checkLabel" for = "lion1">
                                 Suspicious Person
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "criminalHarassment" name = "cat2" value = "criminalHarassment"></input> 
-                            <label class = "checkLabel" for = "cat2">
+                            <input class = "checkboxes" type = "checkbox" id = "trespass" name = "lion2" value = "trespass"></input> 
+                            <label class = "checkLabel" for = "lion2">
                                 Trespass
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "indecentAct" name = "cat3" value = "indecentAct"></input> 
-                            <label class = "checkLabel" for = "cat3">
+                            <input class = "checkboxes" type = "checkbox" id = "alarm" name = "lion3" value = "alarm"></input> 
+                            <label class = "checkLabel" for = "lion3">
                                 Alarm
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
-                            <label class = "checkLabel" for = "cat6">
+                            <input class = "checkboxes" type = "checkbox" id = "break" name = "lion4" value = "break"></input> 
+                            <label class = "checkLabel" for = "lion4">
                                 Break & Enter
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
-                            <label class = "checkLabel" for = "cat6">
+                            <input class = "checkboxes" type = "checkbox" id = "medical" name = "lion5" value = "medical"></input> 
+                            <label class = "checkLabel" for = "lion5">
                                 Medical
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
-                            <label class = "checkLabel" for = "cat6">
+                            <input class = "checkboxes" type = "checkbox" id = "driving" name = "lion6" value = "driving"></input> 
+                            <label class = "checkLabel" for = "lion6">
                                 Driving
+                            </label>
+                            <br></br>
+                            
+                            <input class = "checkboxes" type = "checkbox" id = "assault" name = "lion7" value = "assault"></input> 
+                            <label class = "checkLabel" for = "lion7">
+                                Assault
                             </label>
                             <br></br>
                         </td>
 
                         <td>
-                            <input class = "checkboxes" type = "checkbox" id = "robbery" name = "cat4" value = "robbery"></input> 
-                            <label class = "checkLabel" for = "cat4">
+                            <input class = "checkboxes" type = "checkbox" id = "mischief" name = "lion8" value = "mischief"></input> 
+                            <label class = "checkLabel" for = "lion8">
                                 Mischief
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "sexualAssault" name = "cat5" value = "sexualAssault"></input> 
-                            <label class = "checkLabel" for = "cat5">
+                            <input class = "checkboxes" type = "checkbox" id = "robbery" name = "lion9" value = "robbery"></input> 
+                            <label class = "checkLabel" for = "lion9">
                                 Robbery & Theft
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
-                            <label class = "checkLabel" for = "cat6">
-                                Break & Enter
+                            <input class = "checkboxes" type = "checkbox" id = "drugs" name = "lion10" value = "drugs"></input> 
+                            <label class = "checkLabel" for = "lion10">
+                                Drugs
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
-                            <label class = "checkLabel" for = "cat6">
+                            <input class = "checkboxes" type = "checkbox" id = "fraud" name = "lion11" value = "fraud"></input> 
+                            <label class = "checkLabel" for = "lion11">
                                 Fraud
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
-                            <label class = "checkLabel" for = "cat6">
+                            <input class = "checkboxes" type = "checkbox" id = "property" name = "lion12" value = "property"></input> 
+                            <label class = "checkLabel" for = "lion12">
                                 Property Damage
                             </label>
                             <br></br>
 
-                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
-                            <label class = "checkLabel" for = "cat6">
+                            <input class = "checkboxes" type = "checkbox" id = "protest" name = "lion13" value = "protest"></input> 
+                            <label class = "checkLabel" for = "lion13">
                                 Protest
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "harassment" name = "lion14" value = "harassment"></input> 
+                            <label class = "checkLabel" for = "lion14">
+                                Harassment
                             </label>
                             <br></br>
                         </td>
@@ -419,7 +464,9 @@ function MapPage() {
 
                 </table>
                 <input class="changeButton" type = "button" value= "Change" onClick={() => updateData(currentData, RawData)}></input>
-                
+                <br/>
+                <input class="changeButton" type = "button" value= "Reset" onClick={() => resetAll(currentData, RawData)}></input>
+
 
                 
             </div>

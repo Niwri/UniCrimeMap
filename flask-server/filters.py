@@ -1,13 +1,11 @@
 """
 Author: Andrew Nguyen
 Date: November 5/22
-Description: The file that sets filters on crimes.csv and provides a CrimeReport object to the user
+Description: The file that sets filters on tmu_crimes.csv and provides a CrimeReport object to the user
 """
 import datetime
 import csv
 import crime_report as c
-
-
 
 
 def filter_by_date(filename, start_year: int, start_month: int, start_day: int, end_year: int, end_month: int, end_day: int):
@@ -79,6 +77,7 @@ def filter_by_category(filename, category: str):
                 list_of_crimes.append(crime)
 
     return list_of_crimes
+
 
 def default_filter(filename):
     list_of_crimes = []

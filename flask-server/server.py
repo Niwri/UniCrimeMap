@@ -7,8 +7,8 @@ CORS(app)
 
 CORS(app)
 
-TMU_FILE = 'crimes.csv'
-UOFT_FILE = 'uoftcrimes.csv'
+TMU_FILE = 'tmu_crimes.csv'
+UOFT_FILE = 'uoft_crimes.csv'
 
 @app.route("/tmu-incidents")
 def tmu_incidents():

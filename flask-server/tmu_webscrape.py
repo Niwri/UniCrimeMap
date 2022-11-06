@@ -12,7 +12,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
-FILENAME = "crimes.csv"
+FILENAME = "tmu_crimes.csv"
 URL = "https://www.torontomu.ca/community-safety-security/security-incidents/list-of-security-incidents/"
 NUM_PAGES = 11
 
