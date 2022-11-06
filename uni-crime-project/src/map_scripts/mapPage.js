@@ -13,8 +13,9 @@ import { FilterByCategory, FilterByDate } from './mapFormat.js'
 var coordinates = [];
 
 //Demo markers
-var markers = [[43.65917234681383, -79.39810606351988], [43.66025625958288, -79.39253756960474], [43.66643418871954, -79.40110256248767], [43.660671754289524, -79.39553406857253], [43.66206273738076, -79.39950442970485], [43.663453688270884, -79.39348646067563], [43.66574778357029, -79.3974817926327]] 
+var markers = [[43.65917234681383, -79.39810606351988, "Someone stubbed their toe. Address - 63 St.George Street", "Medical"], [43.66025625958288, -79.39253756960474, "Stolen Pencil. Address - 279 Bloor Street West", "Theft"], [43.66643418871954, -79.40110256248767, "Stolen Eraser. Address - 259 Bloor Street West", "Theft"], [43.660671754289524, -79.39553406857253, "False fire alarm. Address - 259 Bloor Street West", "Alarm"], [43.66206273738076, -79.39950442970485, "Unknown persons seen trespassing. Address - 32 Sussex St", "Trespass"], [43.663453688270884, -79.39348646067563, "Person taken to hospital. Address - 40 Sussex St", "Medical"]]
 
+console.log(markers);
 const loader = new Loader({
     apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
     version: "weekly",
@@ -190,6 +191,18 @@ function resetAll(currentData, RawData, map) {
                 position: { lat: marker[0], lng: marker[1] },
                 map,
             });
+
+            const infowindow = new google.maps.InfoWindow({
+                content: marker[2],
+                ariaLabel: marker[3]
+            })
+
+            markerAdd.addListener("click", () => {
+                infowindow.open({
+                  anchor: markerAdd,
+                  map,
+                });
+            });
         })
         
     });
@@ -199,21 +212,13 @@ function resetAll(currentData, RawData, map) {
 //Hard-coded for demo
 function placeMarkers(categories, range, map) {
     var markerList = []
-    for(let i = 0; i < categories.length; i++) {
-        if(categories[i].toLowerCase() == "Property Damage".toLowerCase())
-            markerList.push(markers[0])
-        if(categories[i].toLowerCase() == "Medical".toLowerCase())
-            markerList.push(markers[1])
-        if(categories[i].toLowerCase() == "Mischief".toLowerCase())
-            markerList.push(markers[2])
-        if(categories[i].toLowerCase() == "Impaired Driving".toLowerCase())
-            markerList.push(markers[3])
-        if(categories[i].toLowerCase() == "Suspicious Person".toLowerCase())
-            markerList.push(markers[4])
-        if(categories[i].toLowerCase() == "Theft".toLowerCase())
-            markerList.push(markers[5])
-        if(categories[i].toLowerCase() == "Break and Enter".toLowerCase())
-            markerList.push(markers[6])
+    for(let i = 0; i < markers.length; i++) {
+        for(let j = 0; j < categories.length; j++) {
+            if(markers[i][3].toLowerCase() == categories[j].toLowerCase()) {
+                markerList.push(markers[i]);
+                break;
+            }
+        }
     }
 
     loader.load().then((google) => {
@@ -265,6 +270,18 @@ function placeMarkers(categories, range, map) {
             const markerAdd = new google.maps.Marker({
                 position: { lat: marker[0], lng: marker[1] },
                 map,
+            });
+
+            const infowindow = new google.maps.InfoWindow({
+                content: marker[2],
+                ariaLabel: marker[3]
+            })
+
+            markerAdd.addListener("click", () => {
+                infowindow.open({
+                  anchor: markerAdd,
+                  map,
+                });
             });
         })
     });
@@ -356,105 +373,21 @@ function MapPage() {
                 position: { lat: marker[0], lng: marker[1] },
                 map,
             });
+
+            const infowindow = new google.maps.InfoWindow({
+                content: marker[2],
+                ariaLabel: marker[3]
+            })
+
+            markerAdd.addListener("click", () => {
+                infowindow.open({
+                  anchor: markerAdd,
+                  map,
+                });
+            });
         })
-
-        const infowindow2 = new google.maps.InfoWindow({
-            content: "Someone stubbed their toe. Address - 63 St.George Street",
-            ariaLabel: "Medical",
-        });
-
-        marker2.addListener("click", () => {
-            infowindow2.open({
-              anchor: marker2,
-              map,
-            });
-        });
-
-        const marker3 = new google.maps.Marker({
-            position: { lat: 43.663453688270884, lng: -79.39348646067563 },
-            map,
-        });
-
-        const infowindow3 = new google.maps.InfoWindow({
-            content: "Stolen Pencil. Address - 279 Bloor Street West",
-            ariaLabel: "Theft",
-        });
-
-        marker3.addListener("click", () => {
-            infowindow3.open({
-              anchor: marker3,
-              map,
-            });
-        });
-         
-        const marker4 = new google.maps.Marker({
-            position: { lat: 43.66206273738076, lng: -79.39950442970485 },
-            map,
-        });
-
-        const infowindow4 = new google.maps.InfoWindow({
-            content: "Stolen Eraser. Address - 259 Bloor Street West",
-            ariaLabel: "Theft",
-        });
-
-        marker4.addListener("click", () => {
-            infowindow4.open({
-              anchor: marker4,
-              map,
-            });
-        });
-         
-        const marker5 = new google.maps.Marker({
-            position: { lat: 43.660671754289524, lng: -79.39553406857253 },
-            map,
-        });
-
-        const infowindow5 = new google.maps.InfoWindow({
-            content: "False fire alarm. Address - 259 Bloor Street West",
-            ariaLabel: "Alarm",
-        });
-
-        marker5.addListener("click", () => {
-            infowindow5.open({
-              anchor: marker5,
-              map,
-            });
-        });
-         
-        const marker6 = new google.maps.Marker({
-            position: { lat: 43.66643418871954, lng: -79.40110256248767 },
-            map,
-        });
-
-        const infowindow6 = new google.maps.InfoWindow({
-            content: "Unknown persons seen trespassing. Address - 32 Sussex St",
-            ariaLabel: "Trespass",
-        });
-
-        marker6.addListener("click", () => {
-            infowindow6.open({
-              anchor: marker6,
-              map,
-            });
-        });
-
-        const marker7 = new google.maps.Marker({
-            position: { lat: 43.66025625958288, lng: -79.39253756960474 },
-            map,
-        });
-
-        const infowindow7 = new google.maps.InfoWindow({
-            content: "Person taken to hospital. Address - 40 Sussex St",
-            ariaLabel: "Medical",
-        });
-
-        marker7.addListener("click", () => {
-            infowindow7.open({
-              anchor: marker7,
-              map,
-            });
-        });
-         
+       
+       
 
     });
 
