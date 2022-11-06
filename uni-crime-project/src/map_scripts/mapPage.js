@@ -27,7 +27,6 @@ function MapPage() {
         center: { lat: 43.663744035827754, lng: -79.39479158104825 },
         zoom: 16,
     });
-<<<<<<< Updated upstream
     }); 
     return(
   
@@ -128,10 +127,6 @@ function MapPage() {
         </div>
     </div>
     )
-=======
-
-    });
->>>>>>> Stashed changes
 }
 
 export default MapPage;
