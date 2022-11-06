@@ -10,7 +10,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MapPage/>}/>
+        <Route path="/" element={<MainPage/>}/>
+        <Route path="/map" element={<MapPage/>}/>
       </Routes>
     </BrowserRouter>
     

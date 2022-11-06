@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 import '../css/map.css'
@@ -7,11 +8,7 @@ import { Loader } from "@googlemaps/js-api-loader"
 
 import Arrow from '../images/arrow.png'
 
-async function loadData() {
-    const res = await fetch("http://127.0.0.1:5000/tmu-incidents");
-    var data = await res.json()
-    console.log(data)
-}
+import { FilterByCategory, FilterByDate } from './mapFormat.js'
 
 function getLatLong(address){
     var geocoder;
@@ -59,7 +56,73 @@ function FlipArrow() {
     }
 }
 
+function updateData(currentData, RawData) {
+    var categories = [];
+    if(document.getElementById("assault").checked)
+        categories.push("Assault")
+    if(document.getElementById("robbery").checked)
+        categories.push("Robbery")
+    if(document.getElementById("indecentAct").checked)
+        categories.push("Indecent Act")
+    if(document.getElementById("sexualAssault").checked)
+        categories.push("Sexual Assault")
+    if(document.getElementById("criminalHarassment").checked)
+        categories.push("Criminal Harassment")
+    if(document.getElementById("voyeurism").checked)
+        categories.push("Voyeurism")
+
+    if(categories.length == 0) return
+
+
+    var range = -1;
+
+    if(document.getElementById("lweek").checked)
+        range = 0
+    if(document.getElementById("lmonth").checked)
+        range = 1
+    if(document.getElementById("l3month").checked)
+        range = 2
+    if(document.getElementById("l6month").checked)
+        range = 3
+    if(document.getElementById("lyear").checked)
+        range = 4
+    if(range == -1)
+        return
+
+    currentData = FilterByCategory(categories, RawData)
+
+    
+
+    currentData = FilterByDate(range, currentData)
+    console.log(currentData)
+}
+
+const checkBoxClick = (e) => {
+    var checkboxes = document.querySelectorAll("input[type=checkbox][class='dates']");
+    console.log(checkboxes)
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = false
+    })
+
+    document.getElementById(e.target.id).checked = true;
+}
+
+
 function MapPage() {
+    
+    const [RawData, setRawData] = useState([])
+
+    useEffect(() => {
+        fetch("http://127.0.0.1:5000/uoft-incidents").then(res => res.json()).then((data) => setRawData(data))
+    }, [])
+
+    useEffect(() => {
+        fetch("http://127.0.0.1:5000/tmu-incidents").then(res => res.json()).then((data) => setRawData(data))
+    }, [])
+
+    var currentData = RawData;
+
+    /*
     let map;
     const additionalOptions = {};
     const loader = new Loader({
@@ -123,8 +186,7 @@ function MapPage() {
     });
 
     getLatLong("55 St.George Street");
-
-
+*/
     return(
   
     
@@ -140,66 +202,156 @@ function MapPage() {
         
         <div class = "filtersGui">
             <div class = "menu">
-                <input class = "menuButton" type = "button" id = "menu" name = "menu" value = "Menu"></input>
+                <a href="/"><input class = "menuButton" type = "button" id = "menu" name = "menu" value = "Menu"></input></a>
             </div>
             <div class = "filtersHeading">
                 <p>
                     Filters
                 </p>
             </div>
-
+            
             <div class = "categorieHeading">
                 <h4>
                     Criminal Offences  
                 </h4>
+                    <div class = "categorieSelects">
+                    <p>
+                        Toronto Mans University
+                    </p>
+                    <table class = "selectTable" id = "TMUTable">
+                        <td>
+                            <input class = "checkboxes" type = "checkbox" id = "assault" name = "cat1" value = "assault"></input> 
+                            <label class = "checkLabel" for = "cat1">
+                                Assault
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "criminalHarassment" name = "cat2" value = "criminalHarassment"></input> 
+                            <label class = "checkLabel" for = "cat2">
+                                Criminal Harassment
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "indecentAct" name = "cat3" value = "indecentAct"></input> 
+                            <label class = "checkLabel" for = "cat3">
+                                Indecent Act
+                            </label>
+                            <br></br>
+                        </td>
+
+                        <td>
+                            <input class = "checkboxes" type = "checkbox" id = "robbery" name = "cat4" value = "robbery"></input> 
+                            <label class = "checkLabel" for = "cat4">
+                                Robbery
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "sexualAssault" name = "cat5" value = "sexualAssault"></input> 
+                            <label class = "checkLabel" for = "cat5">
+                                Sexual Assault
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
+                            <label class = "checkLabel" for = "cat6">
+                                Voyeurism
+                            </label>
+                            <br></br>
+                        </td>
+
+                            
+
+                    </table>
+
+                    <p>
+                        University of Toronto
+                    </p>
+                    <table class = "selectTable" id = "UofTTable">
+                        <td>
+                            <input class = "checkboxes" type = "checkbox" id = "assault" name = "cat1" value = "assault"></input> 
+                            <label class = "checkLabel" for = "cat1">
+                                Suspicious Person
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "criminalHarassment" name = "cat2" value = "criminalHarassment"></input> 
+                            <label class = "checkLabel" for = "cat2">
+                                Trespass
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "indecentAct" name = "cat3" value = "indecentAct"></input> 
+                            <label class = "checkLabel" for = "cat3">
+                                Alarm
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
+                            <label class = "checkLabel" for = "cat6">
+                                Break & Enter
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
+                            <label class = "checkLabel" for = "cat6">
+                                Medical
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
+                            <label class = "checkLabel" for = "cat6">
+                                Driving
+                            </label>
+                            <br></br>
+                        </td>
+
+                        <td>
+                            <input class = "checkboxes" type = "checkbox" id = "robbery" name = "cat4" value = "robbery"></input> 
+                            <label class = "checkLabel" for = "cat4">
+                                Mischief
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "sexualAssault" name = "cat5" value = "sexualAssault"></input> 
+                            <label class = "checkLabel" for = "cat5">
+                                Robbery & Theft
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
+                            <label class = "checkLabel" for = "cat6">
+                                Break & Enter
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
+                            <label class = "checkLabel" for = "cat6">
+                                Fraud
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
+                            <label class = "checkLabel" for = "cat6">
+                                Property Damage
+                            </label>
+                            <br></br>
+
+                            <input class = "checkboxes" type = "checkbox" id = "voyeurism" name = "cat6" value = "Voyeurism"></input> 
+                            <label class = "checkLabel" for = "cat6">
+                                Protest
+                            </label>
+                            <br></br>
+                        </td>
+
+                            
+
+                    </table>
+
+                
+                </div>
             </div>
 
-            <div class = "categorieSelects">
-                <table class = "selectTable">
-                    <td>
-                        <input class = "checkboxes" type = "checkbox" id = "cat1" name = "cat1" value = "assault"></input> 
-                        <label class = "checkLabel" for = "cat1">
-                            Assault
-                        </label>
-                        <br></br>
-
-                        <input class = "checkboxes" type = "checkbox" id = "cat2" name = "cat2" value = "criminalHarassment"></input> 
-                        <label class = "checkLabel" for = "cat2">
-                            Criminal Harassment
-                        </label>
-                        <br></br>
-
-                        <input class = "checkboxes" type = "checkbox" id = "cat3" name = "cat3" value = "indecentAct"></input> 
-                        <label class = "checkLabel" for = "cat3">
-                            Indecent Act
-                        </label>
-                        <br></br>
-                    </td>
-
-                    <td>
-                        <input class = "checkboxes" type = "checkbox" id = "cat4" name = "cat4" value = "robbery"></input> 
-                        <label class = "checkLabel" for = "cat4">
-                            Robbery
-                        </label>
-                        <br></br>
-
-                        <input class = "checkboxes" type = "checkbox" id = "cat5" name = "cat5" value = "sexualAssault"></input> 
-                        <label class = "checkLabel" for = "cat5">
-                            Sexual Assault
-                        </label>
-                        <br></br>
-
-                        <input class = "checkboxes" type = "checkbox" id = "cat6" name = "cat6" value = "Voyeurism"></input> 
-                        <label class = "checkLabel" for = "cat1">
-                            Voyeurism
-                        </label>
-                        <br></br>
-                    </td>
-                </table>
-                
-
-                
-            </div>
+           
 
             <div class = "dateHeader">
                 <h4>
@@ -207,22 +359,50 @@ function MapPage() {
                 </h4>
             </div>
 
-            <div class = "dateButtons">
-                <input class = "buttons" type = "button" id = "date1" name = "date1" value = "Last Week"></input>
-                <br></br>
-        
-                <input class = "buttons" type = "button" id = "date2" name = "date2" value = "Last Month"></input>
-                <br></br>
+            <div class = "categorieSelects">
+                <table class = "selectTable">
+                    <td>
+                        <input class = "dates" type = "checkbox" id = "lweek" name = "dog1" value = "Last Week" onClick={checkBoxClick}></input> 
+                        <label class = "checkLabel" for = "dog1">
+                            Last Week
+                        </label>
+                        <br></br>
+
+                        <input class = "dates" type = "checkbox" id = "lmonth" name = "dog2" value = "Last Month" onClick={checkBoxClick}></input> 
+                        <label class = "checkLabel" for = "dog2">
+                            Last Month
+                        </label>
+                        <br></br>
+
+                        <input class = "dates" type = "checkbox" id = "l3month" name = "dog3" value = "Last 3 Months" onClick={checkBoxClick}></input> 
+                        <label class = "checkLabel" for = "dog3">
+                            Last 3 Months
+                        </label>
+                        <br></br>
+                    </td>
+
+                    <td>
+                        <input class = "dates" type = "checkbox" id = "l6month" name = "dog4" value = "Last 6 Months" onClick={checkBoxClick}></input> 
+                        <label class = "checkLabel" for = "dog4">
+                            Last 6 Months
+                        </label>
+                        <br></br>
+
+                        <input class = "dates" type = "checkbox" id = "lyear" name = "dog5" value = "Last Year" onClick={checkBoxClick}></input> 
+                        <label class = "checkLabel" for = "dog5">
+                            Last Year
+                        </label>
+                        <br></br>
+                        <br></br>
+                    </td>
+
+                        
+
+                </table>
+                <input class="changeButton" type = "button" value= "Change" onClick={() => updateData(currentData, RawData)}></input>
                 
-                <input class = "buttons" type = "button" id = "date3" name = "date3" value = "Last 3 Months"></input>
-                <br></br>
 
-                <input class = "buttons" type = "button" id = "date4" name = "date4" value = "Last 6 Months"></input>
-                <br></br>
-
-                <input class = "buttons" type = "button" id = "date5" name = "date5" value = "Last Year"></input>
-                <br></br>
-
+                
             </div>
         </div>
         <div id="#arrowBox" onClick={() => FlipArrow()} class="sideButton">

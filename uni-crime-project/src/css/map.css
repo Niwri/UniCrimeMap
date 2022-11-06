@@ -13,6 +13,7 @@ height: 100%;
 margin: 0;
 padding: 0;
 font-family: 'Signika', sans-serif;
+overflow: hidden;
 }
 
 .mapGuiBackground {
@@ -30,6 +31,10 @@ font-family: 'Signika', sans-serif;
     
 }
 
+::-webkit-scrollbar {
+    width: 0px;
+  }
+
 .filtersGui {
     z-index: 2;
     width: 30%;
@@ -37,9 +42,10 @@ font-family: 'Signika', sans-serif;
     grid-template-columns: 1fr;
     display: grid;
     margin: 0px;
-    height: 100%;
+    max-height: 100%;
     background-repeat: repeat;
     position: absolute;
+    overflow-y: auto;
 
     transition: all 0.3s ease-in-out;
     
@@ -62,11 +68,18 @@ font-family: 'Signika', sans-serif;
     font-weight: bold;
     font-size: 25px;
     margin-top: 0px;
-    margin-left: 77px;
+}
+.categorieHeading h4 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
-.categorieHeading h4{
-    margin-left: 55px;
+.categorieSelects p {
+    text-align: center;
+    font-size: 20px;
+    padding: 0;
+    font-style: italic;
 }
 
 .checkboxes{
@@ -98,8 +111,8 @@ font-family: 'Signika', sans-serif;
 }
 
 .dateHeader h4{
-    margin-top: 30px;
-    margin-bottom: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     margin-left: 77px;
 }
 
@@ -122,7 +135,8 @@ font-family: 'Signika', sans-serif;
 }
 
 .categorieSelects{
-    margin: 0px 10px;
+    margin: 0 auto;
+    padding: 0;
 }
 
 .selectTable{
@@ -155,6 +169,7 @@ font-family: 'Signika', sans-serif;
 }
 
 .sideButton {
+    z-index: 3;
     position: absolute;
     top: 50%;
     left: 32%;
@@ -173,7 +188,20 @@ font-family: 'Signika', sans-serif;
     margin-left: var(--hover-left);
 }
 
-
+.changeButton {
+    background-color: #47B5FF;
+    padding: 10px;
+    width: 40%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 3%;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 10px;
+    border-color: black;
+}
 
 
 

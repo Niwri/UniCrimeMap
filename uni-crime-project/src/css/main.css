@@ -6,7 +6,7 @@
 
 
 .mainTitleBackground svg {
-    z-index: 1;
+    z-index: 3;
     height: 100%;
     position: absolute;
     top: 0;
@@ -17,7 +17,7 @@
 
 
 .mainTitleBackgroundBorder svg {
-    z-index: 0;
+    z-index: 2;
     height: 100%;
     position: absolute;
     top: 0;
@@ -27,7 +27,7 @@
 }
 
 .mainTitleText {
-    z-index: 3;
+    z-index: 4;
     position: absolute;
     top: 50%;
     left: 5%;
@@ -40,10 +40,32 @@
 }
 
 .mapDemo {
-    z-index: -1;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     position: absolute;
+    transition: all 0.5s ease-in-out;
+}
+
+.mapDemo p {
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translateY(-100%);
+    font-size: 3vw;
+    color: black;
+    transition: all 0.5s ease-in-out;
+}
+
+.mapDemo:hover {
+    background-color: rgba(0, 0, 0, 0.2)
+    
+}
+
+.mapDemo:hover p {
+    opacity: 0.8;
 }
