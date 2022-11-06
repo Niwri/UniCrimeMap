@@ -95,10 +95,27 @@ overflow: hidden;
     user-select: none;
 }
 
-.checkLabel{
-    font-size: 18px;
+.dates {
+    margin-top: 0px;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     
 }
+
+.checkLabel{
+    font-size: 18px;
+    font-weight: bold;
+    
+}
+
 
 .dateHeader{
     margin: 0px;
@@ -107,13 +124,13 @@ overflow: hidden;
     margin: 0px auto;
     margin-bottom: 0px;
     margin-top: 0px;
-    margin-left: 105px;
 }
 
 .dateHeader h4{
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 77px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    
+    text-align: center;
 }
 
 .buttons{
@@ -201,6 +218,7 @@ overflow: hidden;
     font-size: 18px;
     border-radius: 10px;
     border-color: black;
+    margin-bottom: 10px;
 }
 
 
