@@ -13,6 +13,29 @@ async function loadData() {
     console.log(data)
 }
 
+function getLatLong(address){
+    var geocoder;
+    const additionalOptions = {};
+    const loader = new Loader({
+        apiKey: "AIzaSyBYOQr_EjZiS-CV1AuLighoZ_Sr_ZGWFto",
+        version: "weekly",
+        ...additionalOptions,
+    }); 
+
+    loader.load().then((google) => {
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode( { 'address': address}, function(results, status) {
+            if (status == 'OK') {
+                console.log(results);
+                return results;
+            } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    });
+};
+
+
 function FlipArrow() {
     var arrow = document.getElementById("#arrow");
     var arrowBox = document.getElementById("#arrowBox")
@@ -48,12 +71,60 @@ function MapPage() {
     loadData();
 
     
-    /*loader.load().then((google) => {
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 43.663744035827754, lng: -79.39479158104825 },
-        zoom: 16,
+    loader.load().then((google) => {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 43.66361717124133,  lng:  -79.40054575699752 },
+            zoom: 15.95,
+            mapTypeId: 'roadmap',
+            styles: [ 
+                { 
+                "featureType": "poi.business", 
+                "stylers": [ 
+                    { "visibility": "off" } 
+                ]
+                },
+                { 
+                    "featureType": "poi.medical", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "transit", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.attraction", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.place_of_worship", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                },
+                { 
+                    "featureType": "poi.sports_complex", 
+                    "stylers": [ 
+                    { "visibility": "off" } 
+                    ]
+                }  
+            ] 
+        });
+
+        const marker = new google.maps.Marker({
+            position: { lat: 43.66659035511779, lng: -79.3949516968313 },
+            map: map,
+        });
     });
-    }); */
+
+    getLatLong("55 St.George Street");
+
+
     return(
   
     
