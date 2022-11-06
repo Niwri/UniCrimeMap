@@ -93,8 +93,10 @@ def default_filter(filename):
             address = row[3]
             category = row[4]
             description = row[5]
+            lat = row[6]
+            lng = row[7]
 
-            crime = [year, month, day, address, category, description]
+            crime = [year, month, day, address, category, description, float(lat), float(lng)]
             list_of_crimes.append(crime)
     
     return list_of_crimes

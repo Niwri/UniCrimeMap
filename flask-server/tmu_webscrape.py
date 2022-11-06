@@ -14,7 +14,7 @@ import time
 
 FILENAME = "tmu_crimes.csv"
 URL = "https://www.torontomu.ca/community-safety-security/security-incidents/list-of-security-incidents/"
-NUM_PAGES = 11
+NUM_PAGES = 60
 
 
 def tmu_webscraper() -> None:

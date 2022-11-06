@@ -31,7 +31,7 @@ date_number_class = "Text168183691__root Text168183691---typography-11-runningTe
 more_incident_class = "ShowMore560806833__root"
 
 currentYear = 2022
-number_of_months_cycle = 1
+number_of_months_cycle = 12
 
 lastDayNumber = 42
 canContinue = True
@@ -167,7 +167,7 @@ def uoft_webscrapper():
     driver.get('https://www.campussafety.utoronto.ca/activity-reports')
     global currentYear
     # Waits for calendar to load
-    time.sleep(30)
+    time.sleep(4)
 
     driver.switch_to.frame(driver.find_element(By.CLASS_NAME, "_49_rs"))
     for i in range(number_of_months_cycle):

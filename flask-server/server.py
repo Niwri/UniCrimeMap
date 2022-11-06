@@ -10,13 +10,18 @@ CORS(app)
 TMU_FILE = 'tmu_crimes.csv'
 UOFT_FILE = 'uoft_crimes.csv'
 
-@app.route("/tmu-incidents")
-def tmu_incidents():
-    return jsonify(default_filter(TMU_FILE))
+TMU_GEO_FILE = 'tmu_geocode.csv'
+UOFT_GEO_FILE = 'uoft_geocode.csv'
 
-@app.route("/uoft-incidents")
+
+@app.route("/tmu-geocodes")
+def tmu_incidents():
+    return jsonify(default_filter(TMU_GEO_FILE))
+
+@app.route("/uoft-geocodes")
 def uoft_incidents():
-    return jsonify(default_filter(UOFT_FILE))
+    return jsonify(default_filter(UOFT_GEO_FILE))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
