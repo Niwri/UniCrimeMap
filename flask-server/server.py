@@ -18,12 +18,6 @@ def tmu_incidents():
 def uoft_incidents():
     return jsonify(default_filter(UOFT_FILE))
 
-@app.route("/testIncident")
-def testIncident():
-    file = open('incident.json')
-    incidents = (json.load(file))["incidents"]
-    return jsonify(incidents)
-
 if __name__ == "__main__":
     app.run(debug=True)
 
