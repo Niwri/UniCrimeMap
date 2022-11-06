@@ -19,7 +19,7 @@ function MapPage() {
         version: "weekly",
         ...additionalOptions,
     }); 
-      
+
     loadData();
     
     loader.load().then((google) => {
