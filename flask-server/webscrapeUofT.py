@@ -35,7 +35,7 @@ number_of_months_cycle = 1
 
 lastDayNumber = 42
 canContinue = True
-FILENAME = "uoftcrimes.csv"
+FILENAME = "uoft_crimes.csv"
 
 # Get Year (current_month_class)
 # Get Each Incident (incident-button-class) (category-class) (date-class) (address-class) (detail-class)
@@ -152,7 +152,7 @@ def write_to_csv(date: datetime, address: str, category: str, description: str) 
 def reset_csv():
     """Reset the CSV with just the header
     """
-    with open('uoftcrimes.csv', 'w') as f:
+    with open('uoft_crimes.csv', 'w') as f:
 
         writer = csv.DictWriter(f, fieldnames=["year", "month", "day", "address", "category", "description"])
         writer.writeheader()
