@@ -1,6 +1,8 @@
 """
 Author: Andrew Nguyen
-
+Date: November 5/22
+Description: This file scrapes all necessary information off of tmu security incidents website. Change the constant
+NUM_PAGES depending on how many pages of information needed. Each page contains 10 incidents.
 """
 
 import csv
@@ -15,10 +17,11 @@ URL = "https://www.torontomu.ca/community-safety-security/security-incidents/lis
 NUM_PAGES = 11
 
 
-def tmu_webscraper():
+def tmu_webscraper() -> None:
     """
     A webscraper designed for getting information from
     https://www.torontomu.ca/community-safety-security/security-incidents/list-of-security-incidents/
+    All information is sent to write-to_csv()
     """
     reset_csv()
     driver = webdriver.Chrome()
@@ -98,8 +101,10 @@ def _convert_to_datetime(month: str, day: int, year: int) -> datetime:
 
 
 def _convert_to_csv_elements(date: datetime, address: str, category: str, description: str):
-    year = date.year
-    month = date.month
-    day = date.day
+    """Returns a inputted elements into respective csv elements
+    """
+    year = int(date.year)
+    month = int(date.month)
+    day = int(date.day)
 
     return [year, month, day, address, category, description]
