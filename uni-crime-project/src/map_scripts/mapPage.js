@@ -10,30 +10,35 @@ import Arrow from '../images/arrow.png'
 
 import { FilterByCategory, FilterByDate } from './mapFormat.js'
 
-function getLatLong(address, setResults){
-    var geocoder;
-    const additionalOptions = {};
-    const loader = new Loader({
-        apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
-        version: "weekly",
-        ...additionalOptions
-    }); 
-    useEffect(() => {
-            loader.load().then((google) => {
-                geocoder = new google.maps.Geocoder();
-                geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'CA'}}, function(results, status) {
-                    if (status == 'OK') {
-                        var lat = results[1].geometry.location.lat();
-                        var lng = results[1].geometry.location.lng();
-                        setResults([lat,lng]);
+var coordinates = [];
 
-                    } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                    }
-                });
-            })
+const loader = new Loader({
+    apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
+    version: "weekly",
+}); 
+
+
+function getLatLong(address){
+    var geocoder;
+    
+    
+    loader.load().then((google) => {
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'CA'}}, function(results, status) {
+            if (status == 'OK') {
+                var lat = results[0].geometry.location.lat();
+                var lng = results[0].geometry.location.lng();
+
+                coordinates.push([lat, lng]);
+                console.log(coordinates);
+
+
+            } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    })
         
-    }, []);
 };
 
 
@@ -144,18 +149,10 @@ const checkBoxClick = (e) => {
     document.getElementById(e.target.id).checked = true;
 }
 
-function createCoordList (currentData, results, setResults){
-    let address = "";
-    let coordList = [[]];
+function createCoordList (currentData){
 
-    console.log(currentData)
-    for (let i=0; i< 110; i++){
-        address = currentData[i][3];
-        
-        getLatLong(address, setResults)
-        coordList[i].push(results);
-    }
-    console.log(coordList)
+    console.log(getLatLong("300 Huron Street"))
+    console.log(coordinates)
 }
 
 function MapPage() {
@@ -172,17 +169,9 @@ function MapPage() {
 
 
     var currentData = RawData;
-
-    
+    createCoordList(currentData)
     
     let map;
-    const additionalOptions = {};
-    const loader = new Loader({
-        apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
-        version: "weekly",
-        ...additionalOptions,
-    }); 
-
     
     loader.load().then((google) => {
         map = new google.maps.Map(document.getElementById("map"), {
@@ -253,9 +242,7 @@ function MapPage() {
     // createCoordList(currentData, results, setResults);
 
 
-    const [coordList, setCoordList] = useState([[]]);
-    getLatLong("55 St.George Street", setCoordList)
-    console.log(coordList)
+    
 
     return(
   
