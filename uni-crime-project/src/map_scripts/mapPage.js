@@ -228,7 +228,40 @@ function MapPage() {
             ] 
         });
 
-        
+        const marker2 = new google.maps.Marker({
+            position: { lat: 43.66574778357029, lng: -79.3974817926327 },
+            map,
+        });
+
+        const marker3 = new google.maps.Marker({
+            position: { lat: 43.663453688270884, lng: -79.39348646067563 },
+            map,
+        });
+         
+        const marker4 = new google.maps.Marker({
+            position: { lat: 43.66206273738076, lng: -79.39950442970485 },
+            map,
+        });
+         
+        const marker5 = new google.maps.Marker({
+            position: { lat: 43.660671754289524, lng: -79.39553406857253 },
+            map,
+        });
+         
+        const marker6 = new google.maps.Marker({
+            position: { lat: 43.66643418871954, lng: -79.40110256248767 },
+            map,
+        });
+
+        const marker7 = new google.maps.Marker({
+            position: { lat: 43.66025625958288, lng: -79.39253756960474 },
+            map,
+        });
+         
+        const marker8 = new google.maps.Marker({
+            position: { lat: 43.65917234681383, lng: -79.39810606351988 },
+            map,
+        });
     });
 
     // const [results, setResults] = useState([]);
