@@ -10,7 +10,7 @@ import Arrow from '../images/arrow.png'
 
 import { FilterByCategory, FilterByDate } from './mapFormat.js'
 
-function getLatLong(address){
+function getLatLong(address, setResults){
     var geocoder;
     const additionalOptions = {};
     const loader = new Loader({
@@ -18,18 +18,22 @@ function getLatLong(address){
         version: "weekly",
         ...additionalOptions
     }); 
+    useEffect(() => {
+            loader.load().then((google) => {
+                geocoder = new google.maps.Geocoder();
+                geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'CA'}}, function(results, status) {
+                    if (status == 'OK') {
+                        var lat = results[1].geometry.location.lat();
+                        var lng = results[1].geometry.location.lng();
+                        setResults([lat,lng]);
 
-    loader.load().then((google) => {
-        geocoder = new google.maps.Geocoder();
-        geocoder.geocode( { 'address': address}, function(results, status) {
-            if (status == 'OK') {
-                console.log(results);
-                return results;
-            } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    });
+                    } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            })
+        
+    }, []);
 };
 
 
@@ -107,6 +111,19 @@ const checkBoxClick = (e) => {
     document.getElementById(e.target.id).checked = true;
 }
 
+function createCoordList (currentData, results, setResults){
+    let address = "";
+    let coordList = [[]];
+
+    console.log(currentData)
+    for (let i=0; i< 110; i++){
+        address = currentData[i][3];
+        
+        getLatLong(address, setResults)
+        coordList[i].push(results);
+    }
+    console.log(coordList)
+}
 
 function MapPage() {
     
@@ -120,9 +137,10 @@ function MapPage() {
         fetch("http://127.0.0.1:5000/tmu-incidents").then(res => res.json()).then((data) => setRawData(data))
     }, [])
 
+
     var currentData = RawData;
 
-    /*
+    
     let map;
     const additionalOptions = {};
     const loader = new Loader({
@@ -130,8 +148,6 @@ function MapPage() {
         version: "weekly",
         ...additionalOptions,
     }); 
-
-    loadData();
 
     
     loader.load().then((google) => {
@@ -179,14 +195,17 @@ function MapPage() {
             ] 
         });
 
-        const marker = new google.maps.Marker({
-            position: { lat: 43.66659035511779, lng: -79.3949516968313 },
-            map: map,
-        });
+        
     });
 
-    getLatLong("55 St.George Street");
-*/
+    // const [results, setResults] = useState([]);
+    // createCoordList(currentData, results, setResults);
+
+
+    const [coordList, setCoordList] = useState([[]]);
+    getLatLong("55 St.George Street", setCoordList)
+    console.log(coordList)
+
     return(
   
     
