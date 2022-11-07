@@ -167,7 +167,7 @@ def uoft_webscrapper():
     driver.get('https://www.campussafety.utoronto.ca/activity-reports')
     global currentYear
     # Waits for calendar to load
-    time.sleep(4)
+    time.sleep(8)
 
     driver.switch_to.frame(driver.find_element(By.CLASS_NAME, "_49_rs"))
     for i in range(number_of_months_cycle):

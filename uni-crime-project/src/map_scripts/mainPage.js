@@ -3,12 +3,13 @@ import React from 'react';
 
 import { Loader } from "@googlemaps/js-api-loader"
 
+
 function MainPage() {
     var projectName = "Map For Hu Tao Enthusiasts in UofT";
         let map;
         const additionalOptions = {};
         const loader = new Loader({
-            apiKey: "AIzaSyBYOQr_EjZiS-CV1AuLighoZ_Sr_ZGWFto",
+            apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
             version: "weekly",
             ...additionalOptions,
         }); 

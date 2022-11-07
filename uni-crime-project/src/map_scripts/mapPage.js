@@ -12,21 +12,17 @@ import { FilterByCategory, FilterByDate } from './mapFormat.js'
 
 var coordinates = [];
 
-//Demo markers
-var markers = [[43.65917234681383, -79.39810606351988, "Someone stubbed their toe. Address - 63 St.George Street", "Medical"], [43.66025625958288, -79.39253756960474, "Stolen Pencil. Address - 279 Bloor Street West", "Theft"], [43.66643418871954, -79.40110256248767, "Stolen Eraser. Address - 259 Bloor Street West", "Theft"], [43.660671754289524, -79.39553406857253, "False fire alarm. Address - 259 Bloor Street West", "Alarm"], [43.66206273738076, -79.39950442970485, "Unknown persons seen trespassing. Address - 32 Sussex St", "Trespass"], [43.663453688270884, -79.39348646067563, "Person taken to hospital. Address - 40 Sussex St", "Medical"]]
-
-console.log(markers);
 const loader = new Loader({
     apiKey: "AIzaSyD3c6wzabNKGdieh53xvuM9qn_vFt2mugs",
     version: "weekly",
 }); 
 
 
-function getLatLong(address){
+async function getLatLong(address){
     var geocoder;
     
     
-    loader.load().then((google) => {
+    await loader.load().then((google) => {
         geocoder = new google.maps.Geocoder();
         geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'CA'}}, function(results, status) {
             if (status == 'OK') {
@@ -34,8 +30,7 @@ function getLatLong(address){
                 var lng = results[0].geometry.location.lng();
 
                 coordinates.push([lat, lng]);
-                console.log(coordinates);
-
+                return;
 
             } else {
             alert('Geocode was not successful for the following reason: ' + status);
@@ -51,7 +46,6 @@ function FlipArrow() {
     var arrowBox = document.getElementById("#arrowBox")
     var guiBackground = document.getElementsByClassName("mapGuiBackground")[0]
     var gui = document.getElementsByClassName("filtersGui")[0]
-    console.log(guiBackground)
 
     if(arrow.style.rotate == "0deg") {
         arrow.style.rotate = "180deg";
@@ -133,15 +127,12 @@ function updateData(currentData, RawData, map) {
 
     currentData = FilterByCategory(categories, RawData)
 
-    
-
     currentData = FilterByDate(range, currentData)
-    placeMarkers(categories, range, map)
+
+    loadMap(currentData, map)
 }
 
-function resetAll(currentData, RawData, map) {
-    currentData = RawData;
-
+function loadMap(currentData, map) {
     loader.load().then((google) => {
         map = new google.maps.Map(document.getElementById("map"), {
             center: { lat: 43.66361717124133,  lng:  -79.40054575699752 },
@@ -186,106 +177,45 @@ function resetAll(currentData, RawData, map) {
                 }  
             ] 
         });
-        markers.forEach((marker) => {
-            const markerAdd = new google.maps.Marker({
-                position: { lat: marker[0], lng: marker[1] },
+        currentData.forEach((incident) => {
+            console.log(incident[6])
+            const marker = new google.maps.Marker({
+                position: { lat: incident[6], lng: incident[7] },
                 map,
             });
 
             const infowindow = new google.maps.InfoWindow({
-                content: marker[2],
-                ariaLabel: marker[3]
+                content: 
+                `<div>
+                <h1>` + incident[4] + `</h1>
+                <p>Date: ` + new Date(incident[0], incident[1]-1, incident[2]) + `</p>
+                <p>Address: ` + incident[3] + `</p>
+                <p>Details: ` + incident[5] + `</p>`,
+                ariaLabel: incident[4]
             })
 
-            markerAdd.addListener("click", () => {
+            google.maps.event.addListener(map, 'click', function() {
+                if (infowindow) {
+                    infowindow.close();
+                }
+            });
+
+            marker.addListener("click", () => {
+                
                 infowindow.open({
-                  anchor: markerAdd,
+                  anchor: marker,
                   map,
                 });
             });
         })
         
     });
-
 }
 
-//Hard-coded for demo
-function placeMarkers(categories, range, map) {
-    var markerList = []
-    for(let i = 0; i < markers.length; i++) {
-        for(let j = 0; j < categories.length; j++) {
-            if(markers[i][3].toLowerCase() == categories[j].toLowerCase()) {
-                markerList.push(markers[i]);
-                break;
-            }
-        }
-    }
+function resetAll(currentData, RawData, map) {
+    currentData = RawData;
 
-    loader.load().then((google) => {
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 43.66361717124133,  lng:  -79.40054575699752 },
-            zoom: 15.95,
-            mapTypeId: 'roadmap',
-            styles: [ 
-                { 
-                "featureType": "poi.business", 
-                "stylers": [ 
-                    { "visibility": "off" } 
-                ]
-                },
-                { 
-                    "featureType": "poi.medical", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "transit", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "poi.attraction", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "poi.place_of_worship", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "poi.sports_complex", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                }  
-            ] 
-        });
-
-        markerList.forEach((marker) => {
-            const markerAdd = new google.maps.Marker({
-                position: { lat: marker[0], lng: marker[1] },
-                map,
-            });
-
-            const infowindow = new google.maps.InfoWindow({
-                content: marker[2],
-                ariaLabel: marker[3]
-            })
-
-            markerAdd.addListener("click", () => {
-                infowindow.open({
-                  anchor: markerAdd,
-                  map,
-                });
-            });
-        })
-    });
-
+    loadMap(currentData, map);
 
 }
 
@@ -299,97 +229,28 @@ const checkBoxClick = (e) => {
     document.getElementById(e.target.id).checked = true;
 }
 
-function createCoordList (currentData){
-
-    //console.log(getLatLong("300 Huron Street"))
-    console.log(coordinates)
-}
-
 function MapPage() {
     
-    const [RawData, setRawData] = useState([])
+    const [UofTData, setUofTData] = useState([])
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5000/uoft-incidents").then(res => res.json()).then((data) => setRawData(data))
+        fetch("http://127.0.0.1:5000/uoft-geocodes").then(res => res.json()).then((data) => setUofTData(data))
     }, [])
+
+    const [TMUData, setTMUData] = useState([])
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5000/tmu-incidents").then(res => res.json()).then((data) => setRawData(data))
+        fetch("http://127.0.0.1:5000/tmu-geocodes").then(res => res.json()).then((data) => setTMUData(data))
     }, [])
 
+    const RawData = TMUData.concat(UofTData)
 
     var currentData = RawData;
-    createCoordList(currentData)
-    
+
+    console.log(currentData)
     let map;
     
-    loader.load().then((google) => {
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 43.66361717124133,  lng:  -79.40054575699752 },
-            zoom: 15.95,
-            mapTypeId: 'roadmap',
-            styles: [ 
-                { 
-                "featureType": "poi.business", 
-                "stylers": [ 
-                    { "visibility": "off" } 
-                ]
-                },
-                { 
-                    "featureType": "poi.medical", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "transit", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "poi.attraction", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "poi.place_of_worship", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                },
-                { 
-                    "featureType": "poi.sports_complex", 
-                    "stylers": [ 
-                    { "visibility": "off" } 
-                    ]
-                }  
-            ] 
-        });
-
-        markers.forEach((marker) => {
-            const markerAdd = new google.maps.Marker({
-                position: { lat: marker[0], lng: marker[1] },
-                map,
-            });
-
-            const infowindow = new google.maps.InfoWindow({
-                content: marker[2],
-                ariaLabel: marker[3]
-            })
-
-            markerAdd.addListener("click", () => {
-                infowindow.open({
-                  anchor: markerAdd,
-                  map,
-                });
-            });
-        })
-       
-       
-
-    });
+    loadMap(currentData, map)
 
     
     // const [results, setResults] = useState([]);
