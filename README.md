@@ -10,5 +10,5 @@ The geocodes for the addresses are also done using the Google Maps API
 ## Tools & Frameworks
 JavaScript, Python, React.js, Flask, Selenium
 
-## DevPost
+## Devpost
 https://devpost.com/software/unicrimemap
